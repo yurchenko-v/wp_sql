@@ -1,6 +1,8 @@
 Ubuntu 16.04.4-server
+
 Docker version 17.05.0-ce, build 89658be
-docker-compose version 1.20.1, build 5d8c71b
+
+Docker-compose version 1.20.1, build 5d8c71b
 
 1. Clone repo
 git clone https://github.com/yurchenko-v/wp_sql
@@ -19,3 +21,4 @@ Wait for message "MySQL init process done. Ready for start up."
 docker-compose up -d
 
 Wordpress is aviable at http://localhost:8000
+
