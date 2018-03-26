@@ -1,0 +1,9 @@
+files:
+ - /mnt/sql/*.log
+ - /mnt/nginx/*.log
+destination:
+ host: logs3.papertrailapp.com
+ port: 47257
+ protocol: tls
+exclude_patterns:
+ - don't log on me

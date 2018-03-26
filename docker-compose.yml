@@ -1,0 +1,57 @@
+version: '2'
+
+services:
+ db:
+  image: mysql
+  volumes:
+   - ./mysql.conf.d:/etc/mysql/mysql.conf.d:ro
+   - ./db:/var/lib/mysql
+   - ./logs/mysql:/var/log/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: testtask
+   MYSQL_DATABASE: wordpress
+   MYSQL_USER: wordpress
+   MYSQL_PASSWORD: wordpress
+ wp:
+  image: wordpress:4.9.3-fpm
+  depends_on:
+   - db
+  links:
+   - db
+  environment:
+   WORDPRESS_DB_HOST: db:3306
+   WORDPRESS_DB_USER: wordpress
+   WORDPRESS_DB_PASSWORD: wordpress
+ nginx:
+  image: nginx:latest
+  depends_on:
+   - wp
+  links:
+   - wp
+  volumes_from:
+   - wp
+  ports:
+   - "8000:80"
+   - "81:81"
+  volumes:
+   - ./nginx_conf:/etc/nginx/conf.d
+   - ./logs/nginx:/var/log/nginx
+ datadog:
+  build: datadog
+  links: 
+   - nginx
+   - db
+  environment:
+   - DD_API_KEY=d1561f47cd95e0939a5e7b3feeb1bc13
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+   - /proc/:/host/proc/:ro
+   - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+ papertrail:
+  build: remlog
+  volumes:
+   - ./logs/nginx:/mnt/nginx
+   - ./logs/mysql:/mnt/sql
+  command:
+   -c /etc/log_files.yml
+

@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+ db:
+  image: mysql
+  volumes:
+   - ./mysql.conf.d:/etc/mysql/mysql.conf.d:ro
+   - ./db:/var/lib/mysql
+   - ./logs/mysql:/var/log/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: testtask
+   MYSQL_DATABASE: wordpress
+   MYSQL_USER: wordpress
+   MYSQL_PASSWORD: wordpress
+
