@@ -23,7 +23,7 @@ $docker-compose -f stack.yml up
 Wait for message "MySQL init process done. Ready for start up."
 (Then ctrl+c and $docker-compose rm)
 
-5. Now start the all system
+5. Now start all system
 
 $docker-compose up -d
 
